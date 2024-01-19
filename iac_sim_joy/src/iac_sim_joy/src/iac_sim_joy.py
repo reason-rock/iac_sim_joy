@@ -56,7 +56,7 @@ class IAC_joy_pub(Node):
                     motion[event.axis] = event.value
                     j_ste = (-(event.value*240))
                     #print(j_ste)
-
+            # Gear
             if event.type == JOYBUTTONDOWN:
                 if event.button == 5:
                     g_input = g_input + 1
