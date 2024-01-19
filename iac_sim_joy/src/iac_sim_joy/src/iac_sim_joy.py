@@ -16,8 +16,7 @@ pygame.joystick.init()
 j_thr = 0.0
 j_brk = 0.0
 j_ste = 0.0
-g_dn = 0
-g_up = 0
+g_input = 1
 
 
 
@@ -32,8 +31,7 @@ class IAC_joy_pub(Node):
         global j_thr
         global j_brk
         global j_ste
-        global g_up
-        global g_dn
+        global g_input
 
         for event in pygame.event.get():
             if event.type == JOYDEVICEADDED:
@@ -59,30 +57,17 @@ class IAC_joy_pub(Node):
                     j_ste = (-(event.value*240))
                     #print(j_ste)
 
-            # Gear          
             if event.type == JOYBUTTONDOWN:
                 if event.button == 5:
-                    motion[event.button] = 1
-                    g_up = g_up + motion[event.button]
-                    #print(g_up)
+                    g_input = g_input + 1
                 elif event.button == 4:
-                    motion[event.button] = 1
-                    g_dn = g_dn + motion[event.button]
-                    #print(g_dn)
+                    g_input = g_input - 1
 
-
-
-    # Gear range 1~6
-        # if g_up > 5:
-        #     g_up = 5
-        # if g_dn > 5:
-        #     g_dn = 5
-
-        g_input = g_up - g_dn
-        if g_input < 1:
-            g_input = 1
-        if g_input > 6:
-            g_input = 6
+                # Gear range 1~6
+                if g_input < 1:
+                    g_input = 1
+                if g_input > 6:
+                    g_input = 6
 
         msg = VehicleInputs()
         msg.header = Header()
